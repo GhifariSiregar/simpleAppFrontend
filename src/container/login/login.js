@@ -22,15 +22,21 @@ class login extends React.Component {
 
     async Submit() {
         const payload = {
-            email: this.state.email, 
-            password: this.state.password
+            email: this.props.loginForm.email, 
+            password: this.props.loginForm.password
         }
 
         if(this.state.email === "" || this.state.password === "") {
             alert("Harap diisi")
         }
         else {
-
+            try {
+                let result = await axios.post('http://localhost:3300/login', payload);
+                window.location = "/"
+            }
+            catch {
+                alert("Error !")
+            }
         }
     }
 

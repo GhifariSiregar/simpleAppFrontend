@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Label, Input, Card } from 'reactstrap';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { setRegisterForm } from "../../redux/action/registerAuthAction";
+import axios from "axios";
 
 class Register extends React.Component {
     handleChange = (payload) => {
