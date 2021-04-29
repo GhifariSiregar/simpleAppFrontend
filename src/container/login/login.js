@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Label, Input, Card, FormFeedback, Spinner } fr
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { setLoginForm } from "../../redux/action/loginAuthAction";
+import axios from "axios";
 
 class login extends React.Component {
     state = {
@@ -27,6 +28,9 @@ class login extends React.Component {
 
         if(this.state.email === "" || this.state.password === "") {
             alert("Harap diisi")
+        }
+        else {
+
         }
     }
 

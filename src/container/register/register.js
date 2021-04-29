@@ -13,6 +13,31 @@ class Register extends React.Component {
         this.props.setRegisterForm(newval)
     }
 
+    async Submit() {
+        const payload = {
+            email: this.props.registerForm.email, 
+            password: this.props.registerForm.password,
+            name: this.props.registerForm.name,
+            address: this.props.registerForm.address,
+            ktp: this.props.registerForm.ktp,
+            occupancy: this.props.registerForm.occupancy,
+            confirmPassword: this.props.registerForm.confirmPassword
+        }
+
+        if(this.state.email === "" || this.state.password === "") {
+            alert("Harap diisi")
+        }
+        else {
+            try {
+                let result = await axios.post('http://localhost:3300/register', payload);
+                window.location = "/"
+            }
+            catch {
+                alert("Error !")
+            }
+        }
+    }
+
     render() {
         document.title = "Register New Account";
         return (
@@ -50,7 +75,7 @@ class Register extends React.Component {
                                 <Input type="password" className="confirmPassword" value={this.props.registerForm.confirmPassword} onChange={(e) => this.handleChange({confirmPassword: e.target.value})} required />
                             </FormGroup>
                             <div className="d-flex justify-content-between align-items-center">
-                                <Button style={{width: "140px"}} type="submit">Submit</Button>
+                                <Button style={{width: "140px"}} onClick={() => this.Submit()}>Submit</Button>
                                 <span>Have an Account? <Link to="/login">Sign-in</Link></span>
                             </div>
                         </Form>
