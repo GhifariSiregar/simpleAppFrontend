@@ -1,5 +1,7 @@
 import React from "react";
 import { Card, Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 class LoanList extends React.Component {
     state = {
@@ -9,16 +11,25 @@ class LoanList extends React.Component {
         this.getData()
     }
 
-    getData() {
+    async getData() {
         let data = []
-        for(let i=0; i<50; i++) {
-            data.push({
-                invoice: String(i),
-                totalPinjam: (1000 + i),
-                tenur: 5,
-                status: "Menunggu Pencairan"
-            })
+        let payload = {
+            "token": localStorage.getItem("user")
         }
+        await axios.post('http://localhost:3300/user/dashboard', payload)
+        .then(function(result) {
+            result.data.data.forEach(function(dasdata) {
+                data.push({
+                    invoice: dasdata.invoice,
+                    totalPinjam: dasdata.loan_amount,
+                    tenur: dasdata.loan_length,
+                    status: dasdata.status
+                })
+            })
+        })
+        .catch(function(err) {
+            localStorage.removeItem("user");
+        })
 
         this.setState({
             data
@@ -40,13 +51,13 @@ class LoanList extends React.Component {
                         <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody> {this.state.data.map((item, index) => (
-                        <tr>
-                        <td>{index + 1}</td>
-                        <td>{item.invoice}</td>
-                        <td>{item.totalPinjam}</td>
-                        <td>{item.tenur}</td>
-                        <td>{item.status}</td>
+                    <tbody>{this.state.data.map((item, index) => (
+                        <tr key={index}>
+                            <td key={index + 1}>{index + 1}</td>
+                            <td key={index + 2}><Link to={"/user/createloan?id=" + item.invoice}>{item.invoice}</Link></td>
+                            <td key={index + 3}>Rp{item.totalPinjam}</td>
+                            <td key={index + 4}>{item.tenur} Bulan</td>
+                            <td key={index + 5}>{item.status}</td>
                         </tr>
                     ))}
                     </tbody>

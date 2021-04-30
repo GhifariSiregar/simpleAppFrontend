@@ -2,6 +2,7 @@ const initialState = {
     name: "",
     ktp: "",
     occupancy: "",
+    gender: "",
     address: "",
     email: "",
     password: "",

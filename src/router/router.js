@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Register from '../container/register/register';
 import Login from '../container/login/login';
 import NavBar from "../component/navbar/navbar";
@@ -8,15 +8,27 @@ import CreateLoanDashboard from '../container/userCreateLoan/createLoanDashboard
 
 class Router extends React.Component {
     render() {
+        let user = localStorage.getItem("user");
         return (
             <div>
                 <NavBar/>
                 <Switch>
-                    <Route exact path="/user/dashboard" component={Dashboard} />
-                    <Route exact path="/user/createloan" component={CreateLoanDashboard} />
-                    <Route exact path="/login" component={Login} />
-                    <Route exact path="/register" component={Register} />
-                    <Route path="*" component={Login} />
+                    <Route exact path="/">
+                        <Redirect to="/login" />
+                    </Route>
+                    <Route exact path="/user/dashboard">
+                        {!user ? <Redirect to="/login" /> : <Dashboard />}
+                    </Route>
+                    <Route exact path="/user/createloan">
+                        {!user ? <Redirect to="/login" /> : <CreateLoanDashboard />}
+                    </Route>
+                    <Route exact path="/login">
+                        {user ? <Redirect to="/user/dashboard" /> : <Login />}
+                    </Route>
+                    <Route exact path="/register">
+                        {user ? <Redirect to="/user/dashboard" /> : <Register />}
+                    </Route>
+                    <Route path="*">Page Not Found</Route>
                 </Switch>
             </div>
         )

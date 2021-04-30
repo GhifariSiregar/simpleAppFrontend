@@ -12,7 +12,6 @@ class login extends React.Component {
     }
 
     handleChange = (payload) => {
-        console.log(this.props)
         const newval = {
             ...this.props.loginForm,
             ...payload
@@ -20,7 +19,9 @@ class login extends React.Component {
         this.props.setLoginForm(newval)
     }
 
-    async Submit() {
+    async Submit(e) {
+        document.getElementById("submit-btn-spin").style.display = "inherit";
+        document.getElementById("submit-btn-text").style.display = "none";
         const payload = {
             email: this.props.loginForm.email, 
             password: this.props.loginForm.password
@@ -30,13 +31,16 @@ class login extends React.Component {
             alert("Harap diisi")
         }
         else {
-            try {
-                let result = await axios.post('http://localhost:3300/login', payload);
-                window.location = "/"
-            }
-            catch {
-                alert("Error !")
-            }
+            await axios.post('http://localhost:3300/login', payload)
+            .then(function(result) {
+                localStorage.setItem("user", result.data.token);
+                window.location.assign("/user/dashboard");
+            })
+            .catch(function(err) {
+                alert(err.response.data.message)
+                document.getElementById("submit-btn-spin").style.display = "none";
+                document.getElementById("submit-btn-text").style.display = "inherit";
+            })
         }
     }
 
@@ -59,7 +63,7 @@ class login extends React.Component {
                                 <FormFeedback>Password harus diisi</FormFeedback>
                             </FormGroup>
                             <div className="d-flex justify-content-between align-items-center">
-                                <Button style={{width: "140px"}} onClick={() => this.Submit()}>Submit</Button>
+                                <Button style={{width: "140px"}} onClick={(e) => this.Submit(e)}><span id="submit-btn-text">Submit</span><Spinner style={{display: "none", marginLeft: "30%"}} id="submit-btn-spin" /></Button>
                                 <Link to="/register">Create New Account</Link>
                             </div>
                         </Form>

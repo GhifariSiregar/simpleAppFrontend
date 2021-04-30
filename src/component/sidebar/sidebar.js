@@ -3,12 +3,17 @@ import { ButtonGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 class SideBar extends React.Component {
+    logout() {
+        localStorage.removeItem("user");
+        window.location.assign("/");
+    }
     render() {
         return (
             <ButtonGroup vertical style={{backgroundColor: "#2596be"}}>
                 <Link to="/user/dashboard"><Button style={{width: "300px", height: "50px"}}>Dashboard</Button></Link>
                 <Link to="/user/createLoan"><Button style={{width: "300px", height: "50px"}}>Ajukan Pinjaman</Button></Link>
-                <Button style={{height: "75vh"}} disabled></Button>
+                <Button onClick={() => this.logout()} style={{width: "300px", height: "50px"}}>Logout</Button>
+                <Button style={{height: "70vh"}} disabled></Button>
             </ButtonGroup>
         )
     }

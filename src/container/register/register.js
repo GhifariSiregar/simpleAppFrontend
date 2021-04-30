@@ -19,30 +19,31 @@ class Register extends React.Component {
             email: this.props.registerForm.email, 
             password: this.props.registerForm.password,
             name: this.props.registerForm.name,
+            gender: this.props.registerForm.gender,
             address: this.props.registerForm.address,
             ktp: this.props.registerForm.ktp,
             occupancy: this.props.registerForm.occupancy,
             confirmPassword: this.props.registerForm.confirmPassword
         }
 
-        if(this.state.email === "" || this.state.password === "") {
+        if(this.props.registerForm.email === "" || this.props.registerForm.password === "") {
             alert("Harap diisi")
         }
         else {
-            try {
-                let result = await axios.post('http://localhost:3300/register', payload);
-                window.location = "/"
-            }
-            catch {
-                alert("Error !")
-            }
+            await axios.post('http://localhost:3300/register', payload)
+            .then(function(result) {
+                localStorage.setItem("user", result.data.token);
+            })
+            .catch(function(err) {
+                alert(err.response.data.message)
+            })
         }
     }
 
     render() {
         document.title = "Register New Account";
         return (
-            <div style={{height: "130vh"}} className="d-flex justify-content-center align-items-center">
+            <div style={{height: "140vh"}} className="d-flex justify-content-center align-items-center">
                 <div>
                     <Card style={{width: "400px", padding: "10px"}}>
                         <h1 style={{textAlign: "center", marginBottom: "50px", marginTop: "30px"}}>Create New Account</h1>
@@ -58,6 +59,14 @@ class Register extends React.Component {
                             <FormGroup>
                                 <Label for="occupancy">Occupancy</Label>
                                 <Input type="text" className="occupancy" value={this.props.registerForm.occupancy} onChange={(e) => this.handleChange({occupancy: e.target.value})} required />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="gender">Gender</Label>
+                                <Input type="select" className="gender" value={this.props.registerForm.gender} onChange={(e) => this.handleChange({gender: e.target.value})} required>
+                                    <option value="">--Choose Gender--</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </Input>
                             </FormGroup>
                             <FormGroup>
                                 <Label for="address">Address</Label>
