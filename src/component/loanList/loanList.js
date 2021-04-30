@@ -29,6 +29,7 @@ class LoanList extends React.Component {
         })
         .catch(function(err) {
             localStorage.removeItem("user");
+            window.location.assign("/login");
         })
 
         this.setState({

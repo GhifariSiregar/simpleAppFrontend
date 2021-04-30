@@ -22,6 +22,8 @@ class CreateLoan extends React.Component {
         .catch(function(err) {
             console.log(err)
             alert(err.response.data.message)
+            localStorage.removeItem("user");
+            window.location.assign("/login");
         })
     }
 
@@ -47,6 +49,8 @@ class CreateLoan extends React.Component {
             })
             .catch(function(err) {
                 alert(err.response.data.message)
+                localStorage.removeItem("user");
+                window.location.assign("/login");
             })
         }
     }
