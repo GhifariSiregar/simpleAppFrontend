@@ -40,8 +40,8 @@ class CreateLoan extends React.Component {
         else {
             const payload = {
                 token: localStorage.getItem("user"),
-                totalpinjam: this.state.loan_amount,
-                tenur: this.state.loan_length
+                loanAmount: this.state.loan_amount,
+                loanLength: this.state.loan_length
             }
             await axios.post(submitLink, payload)
             .then(function() {

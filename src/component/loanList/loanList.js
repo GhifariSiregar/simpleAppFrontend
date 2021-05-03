@@ -1,20 +1,25 @@
 import React from "react";
-import { Card, Table } from "react-bootstrap";
+import { Card, Table, Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 class LoanList extends React.Component {
     state = {
-        data: []
+        data: [],
+        page: [],
+        active : 1
     }
     componentDidMount() {
-        this.getData()
+        this.getData(1)
     }
 
-    async getData() {
-        let data = []
+    async getData(no) {
+        let data = [];
+        let page = [];
+        let active = no;
         let payload = {
-            "token": localStorage.getItem("user")
+            "token": localStorage.getItem("user"),
+            "no": no
         }
         await axios.post('http://localhost:3300/user/dashboard', payload)
         .then(function(result) {
@@ -26,6 +31,10 @@ class LoanList extends React.Component {
                     status: dasdata.status
                 })
             })
+
+            for (let number = 1; number <= result.data.pagination; number++) {
+                page.push(number);
+            }
         })
         .catch(function(err) {
             localStorage.removeItem("user");
@@ -33,7 +42,9 @@ class LoanList extends React.Component {
         })
 
         this.setState({
-            data
+            data,
+            page,
+            active
         })
     }
     render() {
@@ -54,15 +65,22 @@ class LoanList extends React.Component {
                     </thead>
                     <tbody>{this.state.data.map((item, index) => (
                         <tr key={index}>
-                            <td key={index + 1}>{index + 1}</td>
-                            <td key={index + 2}><Link to={"/user/createloan?id=" + item.invoice}>{item.invoice}</Link></td>
-                            <td key={index + 3}>Rp{item.totalPinjam}</td>
-                            <td key={index + 4}>{item.tenur} Bulan</td>
-                            <td key={index + 5}>{item.status}</td>
+                            <td key={(index + 1) + (this.state.active - 1) * 5}>{(index + 1) + (this.state.active - 1) * 5}</td>
+                            <td key={(index + 2) + (this.state.active - 1) * 5}><Link to={"/user/createloan?id=" + item.invoice}>{item.invoice}</Link></td>
+                            <td key={(index + 3) + (this.state.active - 1) * 5}>Rp{item.totalPinjam}</td>
+                            <td key={(index + 4) + (this.state.active - 1) * 5}>{item.tenur} Bulan</td>
+                            <td key={(index + 5) + (this.state.active - 1) * 5}>{item.status}</td>
                         </tr>
                     ))}
                     </tbody>
                     </Table>
+                    <Pagination style={{marginLeft: "2px"}}>
+                        {this.state.page.map((item, index) => (
+                            <Pagination.Item key={item} active={item === this.state.active} onClick={() => {this.getData(item)}}>
+                                {item}
+                            </Pagination.Item>
+                        ))}
+                    </Pagination>
                 </div>
             </Card.Body>
           </Card>
