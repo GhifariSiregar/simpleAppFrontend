@@ -3,7 +3,7 @@ import { Button, Form, FormGroup, Label, Input, Card, FormFeedback, Spinner } fr
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { setLoginForm } from "../../redux/action/loginAuthAction";
-import axios from "axios";
+import { usersAuthentication } from "../../api/usersAuth";
 
 class login extends React.Component {
     state = {
@@ -19,28 +19,15 @@ class login extends React.Component {
         this.props.setLoginForm(newval)
     }
 
-    async Submit(e) {
+    async Submit() {
         document.getElementById("submit-btn-spin").style.display = "inherit";
         document.getElementById("submit-btn-text").style.display = "none";
-        const payload = {
-            email: this.props.loginForm.email, 
-            password: this.props.loginForm.password
-        }
 
-        if(this.state.email === "" || this.state.password === "") {
-            alert("Harap diisi")
+        try {
+            usersAuthentication.userLogin(this.props.loginForm.email, this.props.loginForm.password);
         }
-        else {
-            await axios.post('http://localhost:3300/login', payload)
-            .then(function(result) {
-                localStorage.setItem("user", result.data.token);
-                window.location.assign("/user/dashboard");
-            })
-            .catch(function(err) {
-                alert(err.response.data.message)
-                document.getElementById("submit-btn-spin").style.display = "none";
-                document.getElementById("submit-btn-text").style.display = "inherit";
-            })
+        catch(err) {
+            console.log(err);
         }
     }
 
@@ -63,7 +50,7 @@ class login extends React.Component {
                                 <FormFeedback>Password harus diisi</FormFeedback>
                             </FormGroup>
                             <div className="d-flex justify-content-between align-items-center">
-                                <Button style={{width: "140px"}} onClick={(e) => this.Submit(e)}><span id="submit-btn-text">Submit</span><Spinner style={{display: "none", marginLeft: "30%"}} id="submit-btn-spin" /></Button>
+                                <Button style={{width: "140px"}} onClick={(e) => this.Submit()}><span id="submit-btn-text">Submit</span><Spinner style={{display: "none", marginLeft: "30%"}} id="submit-btn-spin" /></Button>
                                 <Link to="/register">Create New Account</Link>
                             </div>
                         </Form>

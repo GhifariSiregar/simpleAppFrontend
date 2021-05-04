@@ -1,26 +1,17 @@
 import React from "react";
 import { ButtonGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { usersAuthentication } from "../../api/usersAuth";
 
 class SideBar extends React.Component {
     async logout() {
-        localStorage.removeItem("user");
-        window.location.assign("/");
-
-        let headers = {
-            'headers': {
-                'Authorization': `token ${localStorage.getItem("user")}`
-            }
+        try {
+            usersAuthentication.logout();
         }
-        await axios.post('http://localhost:3300/logout', {}, headers)
-        .then(function(result) {
-            window.location.assign("/");
-        })
-        .catch(function(err) {
+        catch(err) {
             localStorage.removeItem("user");
             window.location.assign("/login");
-        })
+        }
     }
     render() {
         return (

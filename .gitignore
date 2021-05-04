@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+#.other
+/src/container/login/indexCopy.js
+/src/container/login/loginCopy.js

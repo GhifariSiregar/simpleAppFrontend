@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Table, Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { loanManagement } from "../../api/loanManagement";
 
 class LoanList extends React.Component {
     state = {
@@ -14,43 +14,20 @@ class LoanList extends React.Component {
     }
 
     async getData(no) {
-        let data = [];
-        let page = [];
-        let active = no;
-        let payload = {
-            "token": localStorage.getItem("user"),
-            "no": no
+        try {
+            let active = no;
+            let loanList = await loanManagement.getLoanList(no);
+            
+            this.setState({
+                data: loanList.listOfLoan,
+                page: loanList.pagination,
+                active
+            });
         }
-        let headers = {
-            'headers': {
-                'Authorization': `token ${localStorage.getItem("user")}`
-            }
-        }
-        await axios.post('http://localhost:3300/user/dashboard', payload, headers)
-        .then(function(result) {
-            result.data.data.forEach(function(dasdata) {
-                data.push({
-                    invoice: dasdata.invoice,
-                    totalPinjam: dasdata.loan_amount,
-                    tenur: dasdata.loan_length,
-                    status: dasdata.status
-                })
-            })
-
-            for (let number = 1; number <= result.data.pagination; number++) {
-                page.push(number);
-            }
-        })
-        .catch(function(err) {
+        catch(err) {
             localStorage.removeItem("user");
             window.location.assign("/login");
-        })
-
-        this.setState({
-            data,
-            page,
-            active
-        })
+        }
     }
     render() {
         return (
@@ -72,8 +49,8 @@ class LoanList extends React.Component {
                         <tr key={index}>
                             <td key={(index + 1) + (this.state.active - 1) * 5}>{(index + 1) + (this.state.active - 1) * 5}</td>
                             <td key={(index + 2) + (this.state.active - 1) * 5}><Link to={"/user/createloan?id=" + item.invoice}>{item.invoice}</Link></td>
-                            <td key={(index + 3) + (this.state.active - 1) * 5}>Rp{item.totalPinjam}</td>
-                            <td key={(index + 4) + (this.state.active - 1) * 5}>{item.tenur} Bulan</td>
+                            <td key={(index + 3) + (this.state.active - 1) * 5}>Rp{item.loanAmount}</td>
+                            <td key={(index + 4) + (this.state.active - 1) * 5}>{item.loanLength} Bulan</td>
                             <td key={(index + 5) + (this.state.active - 1) * 5}>{item.status}</td>
                         </tr>
                     ))}

@@ -1,9 +1,9 @@
 import React from "react";
-import { Button, Form, FormGroup, Label, Input, Card } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Card, Spinner } from 'reactstrap';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { setRegisterForm } from "../../redux/action/registerAuthAction";
-import axios from "axios";
+import { usersAuthentication } from "../../api/usersAuth";
 
 class Register extends React.Component {
     handleChange = (payload) => {
@@ -15,6 +15,8 @@ class Register extends React.Component {
     }
 
     async Submit() {
+        document.getElementById("submit-btn-spin").style.display = "inherit";
+        document.getElementById("submit-btn-text").style.display = "none";
         const payload = {
             email: this.props.registerForm.email, 
             password: this.props.registerForm.password,
@@ -26,17 +28,11 @@ class Register extends React.Component {
             confirmPassword: this.props.registerForm.confirmPassword
         }
 
-        if(this.props.registerForm.email === "" || this.props.registerForm.password === "") {
-            alert("Harap diisi")
+        try {
+            usersAuthentication.registerNewUser(payload);
         }
-        else {
-            await axios.post('http://localhost:3300/register', payload)
-            .then(function(result) {
-                localStorage.setItem("user", result.data.token);
-            })
-            .catch(function(err) {
-                alert(err.response.data.message)
-            })
+        catch(err) {
+            alert(err.response.data.message)
         }
     }
 
@@ -85,7 +81,7 @@ class Register extends React.Component {
                                 <Input type="password" className="confirmPassword" value={this.props.registerForm.confirmPassword} onChange={(e) => this.handleChange({confirmPassword: e.target.value})} required />
                             </FormGroup>
                             <div className="d-flex justify-content-between align-items-center">
-                                <Button style={{width: "140px"}} onClick={() => this.Submit()}>Submit</Button>
+                                <Button style={{width: "140px"}} onClick={() => this.Submit()}><span id="submit-btn-text">Submit</span><Spinner style={{display: "none", marginLeft: "30%"}} id="submit-btn-spin" /></Button>
                                 <span>Have an Account? <Link to="/login">Sign-in</Link></span>
                             </div>
                         </Form>
