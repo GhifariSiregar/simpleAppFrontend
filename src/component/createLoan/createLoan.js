@@ -11,7 +11,12 @@ class CreateLoan extends React.Component {
     }
     async getData() {
         let self = this;
-        await axios.post("http://localhost:3300/user/loandetail?id=" + window.location.search.substring(4), {token: localStorage.getItem("user")})
+        let headers = {
+            'headers': {
+                'Authorization': `token ${localStorage.getItem("user")}`
+            }
+        }
+        await axios.post("http://localhost:3300/user/loandetail?id=" + window.location.search.substring(4), {token: localStorage.getItem("user")}, headers)
         .then(function(result) {
             self.setState({
                 "loan_amount": result.data.data.loan_amount,

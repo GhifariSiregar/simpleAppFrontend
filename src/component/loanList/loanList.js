@@ -21,7 +21,12 @@ class LoanList extends React.Component {
             "token": localStorage.getItem("user"),
             "no": no
         }
-        await axios.post('http://localhost:3300/user/dashboard', payload)
+        let headers = {
+            'headers': {
+                'Authorization': `token ${localStorage.getItem("user")}`
+            }
+        }
+        await axios.post('http://localhost:3300/user/dashboard', payload, headers)
         .then(function(result) {
             result.data.data.forEach(function(dasdata) {
                 data.push({
