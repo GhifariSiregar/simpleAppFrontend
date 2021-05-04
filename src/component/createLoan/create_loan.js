@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Form, FormGroup, Label, Input, Card, Spinner } from 'reactstrap';
-import { loanManagement } from "../../api/loanManagement";
+import { loanManagement } from "../../api/loan_management";
 
 let submitLink = "http://localhost:3300/user/createloan";
 

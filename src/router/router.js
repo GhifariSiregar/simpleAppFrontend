@@ -4,7 +4,7 @@ import Register from '../container/register/register';
 import Login from '../container/login/login';
 import NavBar from "../component/navbar/navbar";
 import Dashboard from '../container/userDashboard/dashboard';
-import CreateLoanDashboard from '../container/userCreateLoan/createLoanDashboard';
+import CreateLoanDashboard from '../container/userCreateLoan/create_loan_dashboard';
 
 class Router extends React.Component {
     render() {

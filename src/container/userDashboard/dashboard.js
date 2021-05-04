@@ -1,6 +1,6 @@
 import React from "react";
 import SideBar from "../../component/sidebar/sidebar";
-import LoanList from "../../component/loanList/loanList";
+import LoanList from "../../component/loanList/loan_list";
 
 class Dashboard extends React.Component {
     render() {

@@ -2,8 +2,8 @@ import React from "react";
 import { Button, Form, FormGroup, Label, Input, Card, FormFeedback, Spinner } from 'reactstrap';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setLoginForm } from "../../redux/action/loginAuthAction";
-import { usersAuthentication } from "../../api/usersAuth";
+import { setLoginForm } from "../../redux/action/login_auth_action";
+import { usersAuthentication } from "../../api/users_auth";
 
 class login extends React.Component {
     state = {
@@ -24,10 +24,12 @@ class login extends React.Component {
         document.getElementById("submit-btn-text").style.display = "none";
 
         try {
-            usersAuthentication.userLogin(this.props.loginForm.email, this.props.loginForm.password);
+            await usersAuthentication.userLogin(this.props.loginForm.email, this.props.loginForm.password);
         }
         catch(err) {
             console.log(err);
+            document.getElementById("submit-btn-spin").style.display = "none";
+            document.getElementById("submit-btn-text").style.display = "inherit";
         }
     }
 

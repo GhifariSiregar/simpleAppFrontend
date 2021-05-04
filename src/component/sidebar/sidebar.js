@@ -1,12 +1,12 @@
 import React from "react";
 import { ButtonGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { usersAuthentication } from "../../api/usersAuth";
+import { usersAuthentication } from "../../api/users_auth";
 
 class SideBar extends React.Component {
     async logout() {
         try {
-            usersAuthentication.logout();
+            await usersAuthentication.logout();
         }
         catch(err) {
             localStorage.removeItem("user");

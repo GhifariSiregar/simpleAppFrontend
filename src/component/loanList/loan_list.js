@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Table, Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { loanManagement } from "../../api/loanManagement";
+import { loanManagement } from "../../api/loan_management";
 
 class LoanList extends React.Component {
     state = {

@@ -1,6 +1,6 @@
 import React from "react";
 import SideBar from "../../component/sidebar/sidebar";
-import CreateLoan from "../../component/createLoan/createLoan";
+import CreateLoan from "../../component/createLoan/create_loan";
 
 class CreateLoanDashboard extends React.Component {
     render() {

@@ -2,8 +2,8 @@ import React from "react";
 import { Button, Form, FormGroup, Label, Input, Card, Spinner } from 'reactstrap';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { setRegisterForm } from "../../redux/action/registerAuthAction";
-import { usersAuthentication } from "../../api/usersAuth";
+import { setRegisterForm } from "../../redux/action/register_auth_action";
+import { usersAuthentication } from "../../api/users_auth";
 
 class Register extends React.Component {
     handleChange = (payload) => {
@@ -29,10 +29,12 @@ class Register extends React.Component {
         }
 
         try {
-            usersAuthentication.registerNewUser(payload);
+            await usersAuthentication.registerNewUser(payload);
         }
         catch(err) {
-            alert(err.response.data.message)
+            console.log(err);
+            document.getElementById("submit-btn-spin").style.display = "none";
+            document.getElementById("submit-btn-text").style.display = "inherit";
         }
     }
 
