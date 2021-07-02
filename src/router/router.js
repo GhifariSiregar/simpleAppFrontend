@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
+import ChatApp from '../container/chatApp/chatApp'
 import Register from '../container/register/register';
 import Login from '../container/login/login';
 import NavBar from "../component/navbar/navbar";
@@ -13,6 +14,7 @@ class Router extends React.Component {
             <div>
                 <NavBar/>
                 <Switch>
+                    <Route exact path="/chat" component={ChatApp} />
                     <Route exact path="/">
                         <Redirect to="/login" />
                     </Route>
