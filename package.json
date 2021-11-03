@@ -10,6 +10,7 @@
     "bootstrap": "^4.6.0",
     "ckeditor4-react": "^2.0.1",
     "env-cmd": "^10.1.0",
+    "html-pdf": "^3.0.1",
     "install": "^0.13.0",
     "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",
