@@ -6,6 +6,8 @@ import NavBar from "../component/navbar/navbar";
 import Dashboard from '../container/userDashboard/dashboard';
 import CreateLoanDashboard from '../container/userCreateLoan/create_loan_dashboard';
 
+import CkeditorTest from '../container/Ckeditor'
+
 class Router extends React.Component {
     render() {
         let user = localStorage.getItem("user");
@@ -27,6 +29,9 @@ class Router extends React.Component {
                     </Route>
                     <Route exact path="/register">
                         {user ? <Redirect to="/user/dashboard" /> : <Register />}
+                    </Route>
+                    <Route exact path="/ckeditor">
+                        <CkeditorTest />
                     </Route>
                     <Route path="*">Page Not Found</Route>
                 </Switch>
