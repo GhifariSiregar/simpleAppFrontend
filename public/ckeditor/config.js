@@ -10,7 +10,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// editor size
 	config.height = '500px';
-	config.width = '720px';
+	config.width = '890px';
 
 	// prevent creating a new p tag when pressing enter
 	config.enterMode = CKEDITOR.ENTER_BR;
