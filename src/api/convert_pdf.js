@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const URL = process.env.REACT_APP_API_URL;
+const URL = 'http://localhost:3496/';
 
 export class ConvertPdf {
     convert(payload) {
         return new Promise(async (resolve, reject) => {
-            await axios.post(URL + 'convert-to-pdf', payload, { responseType: "arraybuffer" })
+            await axios.post(URL + 'spfp/upsert', payload, { responseType: "arraybuffer" })
                 .then(function(result) {
                     console.log(result)
                     const arrayBuffer = new Uint8Array(result.data);
@@ -17,6 +17,18 @@ export class ConvertPdf {
                     alert(err.response.data);
                     reject(err);
                 })
+        })
+    }
+    get() {
+        return new Promise(async (resolve, reject) => {
+            await axios.get(URL + 'spfp/get/2d885b10-21de-11ec-8124-c7ef1b94c6a1')
+            .then(function(result) {
+                resolve(unescape(result.data.content).replace(/[\r\n\t]/g, ""));
+            })
+            .catch(function(err) {
+                alert(err.response.data);
+                reject(err);
+            })
         })
     }
 }
